@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift '.'
+require 'lib/cpu'
+
+instructions = File.readlines(ARGV[0]).map(&:strip)
+cpu = CPU.run(instructions)
+puts "Memory: #{cpu.memory}"
+puts "A: #{cpu.a}"
