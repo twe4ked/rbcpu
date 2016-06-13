@@ -69,5 +69,15 @@ RSpec.describe CPU do
         expect(cpu.memory).to eq [nil, nil, nil, nil, 42]
       end
     end
+
+    describe 'bad input' do
+      it 'errors for unknown opcode' do
+        expect { cpu.run(['FOO 1']) }.to raise_error 'unknown opcode "FOO"'
+      end
+
+      it 'errors when no operand is supplied' do
+        expect { cpu.run(['FOO ; 1']) }.to raise_error 'no operand supplied for "FOO ; 1"'
+      end
+    end
   end
 end

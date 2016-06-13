@@ -11,11 +11,10 @@ class CPU
 
   def run(instructions, jump: 1)
     instructions[(jump - 1)..-1].each do |instruction|
-      instruction.gsub! /;.*/, ''
+      opcode, operand = instruction.gsub(/;.*/, '').split(' ')
 
-      opcode, operand = instruction.split(' ')
-
-      next if [opcode, operand].compact.count != 2
+      next if opcode.nil?
+      raise "no operand supplied for #{instruction.inspect}" if operand.nil?
 
       number = number_for(operand)
       result = operation(opcode, number)
