@@ -28,7 +28,7 @@ class CPU
 
   def number_for(operand)
     memory_address = !(operand =~ /^#/)
-    operand = operand.gsub(/#/, '').strip.to_i
+    operand = operand.to_s.gsub(/#/, '').strip.to_i
 
     number = if memory_address
       memory[operand]
@@ -69,9 +69,7 @@ class CPU
       raise "no operand supplied for #{instruction.inspect}"
     end
 
-    number = unless opcode.nil?
-      number_for(operand)
-    end
+    number = number_for(operand)
 
     [opcode, number]
   end
