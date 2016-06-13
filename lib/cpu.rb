@@ -26,7 +26,7 @@ class CPU
 
   private
 
-  def number_for(operand)
+  def operand_to_number(operand)
     _, mode, number = operand.to_s.rpartition(/#/)
 
     if mode == '#'
@@ -68,7 +68,7 @@ class CPU
       raise "no operand supplied for #{instruction.inspect}"
     end
 
-    number = number_for(operand)
+    number = operand_to_number(operand)
 
     [opcode, number]
   end
