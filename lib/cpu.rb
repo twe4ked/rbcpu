@@ -1,5 +1,5 @@
 class CPU
-  attr_reader :instructions, :memory, :a
+  attr_reader :memory, :a
 
   def self.run(*args)
     new.tap { |cpu| cpu.run(*args) }
@@ -19,35 +19,8 @@ class CPU
       next if [opcode, operand].compact.count != 2
 
       number = number_for(operand)
-
-      case opcode
-      when 'LDA'
-        @a = number
-      when 'MUL'
-        @a = @a * number
-      when 'SUB'
-        @a = @a - number
-      when 'ADD'
-        @a = @a + number
-      when 'JNZ'
-        if @a == 0
-          # NOP
-        else
-          run instructions, jump: number
-          break
-        end
-      when 'JZ'
-        if @a == 0
-          run instructions, jump: number
-          break
-        else
-          # NOP
-        end
-      when 'STO'
-        memory[number] = @a
-      else
-        raise "unknown instruction #{instruction.inspect}"
-      end
+      result = operation(instructions, opcode, number)
+      break if result == :break
     end
   end
 
@@ -59,6 +32,37 @@ class CPU
       memory[operand]
     else
       operand
+    end
+  end
+
+  def operation(instructions, opcode, number)
+    case opcode
+    when 'LDA'
+      @a = number
+    when 'MUL'
+      @a = @a * number
+    when 'SUB'
+      @a = @a - number
+    when 'ADD'
+      @a = @a + number
+    when 'JNZ'
+      if @a == 0
+        # NOP
+      else
+        run instructions, jump: number
+        :break
+      end
+    when 'JZ'
+      if @a == 0
+        run instructions, jump: number
+        :break
+      else
+        # NOP
+      end
+    when 'STO'
+      memory[number] = @a
+    else
+      raise "unknown opcode #{opcode.inspect}"
     end
   end
 end
