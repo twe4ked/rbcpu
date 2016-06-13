@@ -45,19 +45,19 @@ class CPU
     when 'LDA'
       @a = number
     when 'MUL'
-      @a = @a * number
+      @a = a * number
     when 'SUB'
-      @a = @a - number
+      @a = a - number
     when 'ADD'
-      @a = @a + number
+      @a = a + number
     when 'JNZ'
-      if @a == 0
+      if a == 0
         # NOP
       else
         return number
       end
     when 'STO'
-      memory[number] = @a
+      memory[number] = a
     else
       raise "unknown opcode #{opcode.inspect}"
     end
