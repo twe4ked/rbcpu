@@ -30,7 +30,7 @@ class CPU
     memory_address = !(operand =~ /^#/)
     operand = operand.to_s.gsub(/#/, '').strip.to_i
 
-    number = if memory_address
+    if memory_address
       memory[operand]
     else
       operand
