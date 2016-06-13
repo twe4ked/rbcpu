@@ -19,8 +19,12 @@ class CPU
       next if [opcode, operand].compact.count != 2
 
       number = number_for(operand)
-      result = operation(instructions, opcode, number)
-      break if result == :break
+      result = operation(opcode, number)
+
+      if result
+        run instructions, jump: result
+        break
+      end
     end
   end
 
@@ -35,7 +39,7 @@ class CPU
     end
   end
 
-  def operation(instructions, opcode, number)
+  def operation(opcode, number)
     case opcode
     when 'LDA'
       @a = number
@@ -49,13 +53,14 @@ class CPU
       if @a == 0
         # NOP
       else
-        run instructions, jump: number
-        :break
+        return number
       end
     when 'STO'
       memory[number] = @a
     else
       raise "unknown opcode #{opcode.inspect}"
     end
+
+    nil
   end
 end
