@@ -27,6 +27,8 @@ class CPU
     end
   end
 
+  private
+
   def number_for(operand)
     memory_address = !(operand =~ /^#/)
     operand = operand.gsub(/#/, '').strip.to_i
