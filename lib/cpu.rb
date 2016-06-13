@@ -6,7 +6,6 @@ class CPU
   end
 
   def initialize(memory: [])
-    @a = 0
     @memory = memory
   end
 
