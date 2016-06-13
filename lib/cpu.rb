@@ -18,14 +18,7 @@ class CPU
 
       next if [opcode, operand].compact.count != 2
 
-      memory_address = !(operand =~ /^#/)
-      operand = operand.gsub(/#/, '').strip.to_i
-
-      number = if memory_address
-        memory[operand]
-      else
-        operand
-      end
+      number = number_for(operand)
 
       case opcode
       when 'LDA'
@@ -55,6 +48,17 @@ class CPU
       else
         raise "unknown instruction #{instruction.inspect}"
       end
+    end
+  end
+
+  def number_for(operand)
+    memory_address = !(operand =~ /^#/)
+    operand = operand.gsub(/#/, '').strip.to_i
+
+    number = if memory_address
+      memory[operand]
+    else
+      operand
     end
   end
 end
