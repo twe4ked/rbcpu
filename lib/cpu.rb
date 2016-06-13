@@ -52,13 +52,6 @@ class CPU
         run instructions, jump: number
         :break
       end
-    when 'JZ'
-      if @a == 0
-        run instructions, jump: number
-        :break
-      else
-        # NOP
-      end
     when 'STO'
       memory[number] = @a
     else
