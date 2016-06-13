@@ -27,13 +27,12 @@ class CPU
   private
 
   def number_for(operand)
-    memory_address = !(operand =~ /^#/)
-    operand = operand.to_s.gsub(/#/, '').strip.to_i
+    _, mode, number = operand.to_s.rpartition(/#/)
 
-    if memory_address
-      memory[operand]
+    if mode == '#'
+      number.to_i
     else
-      operand
+      memory[number.to_i]
     end
   end
 
